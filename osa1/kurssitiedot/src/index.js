@@ -1,17 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = (props) => {
-    console.log(props)
-    return (
-        <div>
-            <h1> {props.course} </h1>
-        </div>
-    )
-}
+const Header = ({course}) => <h1>{course}</h1>
 
 const Content = (props) => {        // osat ja tehtävämäärät
-    console.log("Hello from Content")
     return (
         <div>
             <p>{props.parts[0].name} {props.parts[0].exercises}</p>
@@ -22,8 +14,6 @@ const Content = (props) => {        // osat ja tehtävämäärät
 }
 
 const Total = (props) => {          // tehtävien yhteismäärä
-    console.log("Total")
-    console.log(props)
     return (
         <div>
             <p>Number of exercises {props.total[0].exercises + props.total[1].exercises + props.total[2].exercises}</p>
