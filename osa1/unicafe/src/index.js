@@ -2,12 +2,29 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Header = () => <h1>give feedback</h1>
-const Statistics = () => <h1>statistics</h1>
 const Button = ({ handleClick, text }) => (
     <button onClick={handleClick}>
         {text}
     </button>
 )
+
+const Statistics = ({ good, neutral, bad }) => {
+    const total = good + neutral + bad
+    const average = (good - bad) / total
+    const positive = (good / total) * 100
+
+    return (
+        <div>
+            <h1>statistics</h1>
+            <div>good {good}</div>
+            <div>neutral {neutral}</div>
+            <div>bad {bad}</div>
+            <div>all {total}</div>
+            <div>average {average}</div>
+            <div>positive {positive} %</div>
+        </div>
+    )
+}
 
 
 const App = () => {
@@ -28,10 +45,7 @@ const App = () => {
                 text='neutral' />
             <Button handleClick={handleBadClick}
                 text='bad' />
-            <Statistics />
-            <p>good {good}</p>
-            <p>neutral {neutral}</p>
-            <p>bad {bad}</p>
+            <Statistics good={good} neutral={neutral} bad={bad} />
         </div>
     )
 }
