@@ -1,22 +1,48 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Button = ({ click }) => (
+const Button = ({ click, text }) => (
     <div>
-        <button onClick={click}>next anecdote</button>
+        <button onClick={click}>{text}</button>
     </div>
 )
 
+const Anecdote = ({header, anecdote, votes}) => {
+    return (
+        <div>
+            <h1>Anecdote {header}</h1>
+            {anecdote}
+            <div>has {votes} votes</div>
+        </div>
+    )
+}
+
 const App = (props) => {
     const [selected, setSelected] = useState(0)
+    const [maxVoted, setMaxVoted] = useState(0)
+    const points = new Uint8Array(anecdotes.length)
+    const [pointsArray, setPointsArray] = useState(points)
+    console.log(pointsArray)
     const handleClick = () => {
         const randNum = Math.floor(Math.random() * anecdotes.length)
         setSelected(randNum)
+        refresh()
     }
+    const makeVote = () => {
+        pointsArray[selected] += 1
+        setPointsArray(pointsArray)
+        refresh()
+        if (pointsArray[selected] > pointsArray[maxVoted]) {
+            setMaxVoted(selected)
+        }
+    }
+    
     return (
         <div>
-            {props.anecdotes[selected]}
-            <Button click={handleClick} />
+            <Anecdote header={"of the day"} anecdote={anecdotes[selected]} votes={pointsArray[selected]} />
+            <Button click={handleClick} text={"next anecdote"} />
+            <Button click={makeVote} text={"vote"} />
+            <Anecdote header={"with most votes"} anecdote={anecdotes[maxVoted]} votes={pointsArray[maxVoted]} />
         </div>
     )
 }
@@ -29,6 +55,11 @@ const anecdotes = [
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
+const refresh = () => {
+    ReactDOM.render(<App anecdotes={anecdotes} />, 
+    document.getElementById('root'))
+  }
 
 ReactDOM.render(
     <App anecdotes={anecdotes} />,
