@@ -10,10 +10,12 @@ const Button = ({ handleClick, text }) => (
 )
 
 const Statistic = ({ value, text }) => (
-    <tr>
-        <td>{text}</td>
-        <td>{value}</td>
-    </tr>
+    <tbody>
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+        </tr>
+    </tbody>
 )
 
 const Statistics = ({ good, neutral, bad }) => {
