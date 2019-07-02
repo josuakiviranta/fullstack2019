@@ -22,12 +22,12 @@ const App = (props) => {
     const [maxVoted, setMaxVoted] = useState(0)
     const points = new Uint8Array(anecdotes.length)
     const [pointsArray, setPointsArray] = useState(points)
-    console.log(pointsArray)
     const handleClick = () => {
         const randNum = Math.floor(Math.random() * anecdotes.length)
         setSelected(randNum)
         refresh()
     }
+    
     const makeVote = () => {
         pointsArray[selected] += 1
         setPointsArray(pointsArray)
