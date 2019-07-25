@@ -56,8 +56,8 @@ const App = () => {
 
   useEffect(dataFromRestcountries, [])
 
-  const handleFilterChange = (event) => {
-    const typedFilter = event.target.value
+  const handleFilterChange = (e) => {
+    const typedFilter = e.target.value
     setNewFilter(typedFilter)
     setShowCountry(false)
     const countriesToShow = countries.filter(country => country.name.toLowerCase().includes(typedFilter.toLowerCase()))
