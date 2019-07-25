@@ -39,58 +39,71 @@ const App = () => {
     }
   }
 
+  const rows = () => numbersToShow.map(person =>
+    <Person
+      key={person.id}
+      person={person}
+      handleDelete={handleDelete}
+    />
+  )
 
-const rows = () => numbersToShow.map(person =>
-  <Person key={person.id} person={person} handleDelete={handleDelete} />
-)
-
-const handleNameChange = (event) => {
-  setNewName(event.target.value)
-}
-
-const handleNumberChange = (event) => {
-  setNewNumber(event.target.value)
-}
-
-const handleFilterChange = (event) => {
-  setNewFilter(event.target.value)
-  if (event.target.value !== '') {
-    setShowAll(false)
-  } else {
-    setShowAll(true)
+  const handleNameChange = (e) => {
+    setNewName(e.target.value)
   }
-}
 
-const addPerson = (event) => {
-  event.preventDefault()
-  if (names.includes(newName)) {
-    window.alert(`${newName} is already added to phonebook`)
+  const handleNumberChange = (e) => {
+    setNewNumber(e.target.value)
   }
-  else {
-    const personObject = {
-      name: newName,
-      number: newNumber,
+
+  const handleFilterChange = (e) => {
+    setNewFilter(e.target.value)
+    if (e.target.value !== '') {
+      setShowAll(false)
+    } else {
+      setShowAll(true)
     }
-    personService
-      .create(personObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
-      })
   }
-}
+
+  const confirmNumberChange = (person) => {
+    if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+      const changedPerson = { ...person, number: newNumber }
+      personService
+        .update(changedPerson.id, changedPerson)
+        .then(returnedPerson => setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson)))
+    }
+  }
+
+  const addPerson = (event) => {
+    event.preventDefault();
+    if (names.includes(newName)) {
+      const person = persons.find(p => p.name === newName)
+      confirmNumberChange(person)
+    }
+    else {
+      const personObject = {
+        name: newName,
+        number: newNumber,
+      }
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+    }
+  }
 
 
-return (
-  <div>
-    <h2>Phonebook</h2>
-    <FilterForm newFilter={newFilter} handleFilterChange={handleFilterChange} />
-    <PersonForm name={newName} number={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addPerson={addPerson} />
-    <h2>Numbers</h2>
-    {rows()}
-  </div>
-)
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <FilterForm newFilter={newFilter} handleFilterChange={handleFilterChange} />
+      <PersonForm name={newName} number={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addPerson={addPerson} />
+      <h2>Numbers</h2>
+      {rows()}
+    </div>
+  )
 
 }
 
