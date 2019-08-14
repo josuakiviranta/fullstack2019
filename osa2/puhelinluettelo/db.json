@@ -6,11 +6,6 @@
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -26,29 +21,19 @@
       "id": 7
     },
     {
-      "name": "Hoi",
-      "number": "146",
+      "name": "Hei",
+      "number": "42",
       "id": 8
     },
     {
-      "name": "Homo Mies",
-      "number": "1235",
-      "id": 9
+      "name": "Pertti",
+      "number": "3",
+      "id": 13
     },
     {
-      "name": "Perse",
-      "number": "214",
-      "id": 10
-    },
-    {
-      "name": "Peräreikä",
-      "number": "1513",
-      "id": 11
-    },
-    {
-      "name": "Juha Tauriainen",
-      "number": "019091",
-      "id": 12
+      "name": "Pee",
+      "number": "14",
+      "id": 15
     }
   ]
 }
