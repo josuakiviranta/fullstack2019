@@ -1,0 +1,6 @@
+npm backendin muodostaminen
+$ npm init
+
+nodemonin muodostaminen, jotta appi päivittyy automaattisesti kun koodia
+muutetaan
+$ npm install --save-dev nodemon
