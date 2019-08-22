@@ -24,8 +24,8 @@ let persons = [
 ]
 
 app.get('/', (req, res) => {
-    res.send('<h1>Hello World!</h1>')
-  })
+  res.send('<h1>Hello World!</h1>')
+})
 
 app.get('/api/info', (req, res) => {
   const size = persons.length
@@ -35,16 +35,16 @@ app.get('/api/info', (req, res) => {
   <div>${time}</div>`)
 })
 
-  app.get('/api/persons', (req, res) => {
-    res.json(persons)
-  })
+app.get('/api/persons', (req, res) => {
+  res.json(persons)
+})
 
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
   const person = persons.find(person => id === person.id)
   if (person) {
     res.json(person)
-  } else{
+  } else {
     res.status(404).end()
   }
 })
@@ -56,22 +56,26 @@ const generateId = () => {
 
 app.post('/api/persons', (req, res) => {
   const body = req.body
-  
-  if (!body.name) {
+  const names = persons.map(person => person.name)
+
+  if (!body.name || !body.number) {
     return res.status(400).json({
-      error: 'content missing'
+      error: 'name or number is missing'
     })
-  }
-  console.log(body.name)
-  const person = {
-    name: body.name,
-    number: body.number,
-    id: generateId()
+  } else if (names.find(name => name === body.name)) {
+    return res.status(400).json({
+      error: 'name must be unique'
+    })
+  } 
+    const person = {
+      name: body.name,
+      number: body.number,
+      id: generateId()
+    }
 
-  }
-
-  persons = persons.concat(person)
-  res.json(person)
+    persons = persons.concat(person)
+    res.json(person)
+  
 })
 
 app.delete('/api/persons/:id', (req, res) => {
@@ -82,5 +86,5 @@ app.delete('/api/persons/:id', (req, res) => {
 
 const port = 3001
 app.listen(port, () => {
-console.log(`Server running on port ${port}`)
+  console.log(`Server running on port ${port}`)
 })
