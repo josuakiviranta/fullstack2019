@@ -1,9 +1,23 @@
-const http = require('http')
+//const http = require('http')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
 
 app.use(bodyParser.json())
+app.use(morgan('tiny'))
+
+/*
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+} 
+
+app.use(requestLogger)
+*/
 
 let persons = [
   {
@@ -22,10 +36,6 @@ let persons = [
     id: 4
   }
 ]
-
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
 
 app.get('/api/info', (req, res) => {
   const size = persons.length
@@ -54,6 +64,7 @@ const generateId = () => {
   return Math.floor(Math.random() * Math.floor(rand))
 }
 
+
 app.post('/api/persons', (req, res) => {
   const body = req.body
   const names = persons.map(person => person.name)
@@ -77,6 +88,7 @@ app.post('/api/persons', (req, res) => {
     res.json(person)
   
 })
+
 
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.param.id)
