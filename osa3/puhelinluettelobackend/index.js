@@ -23,6 +23,15 @@ let persons = [
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>')
   })
+
+app.get('/info', (req, res) => {
+  const size = persons.length
+  const time = new Date()
+  res.send(`
+  <div>Phonebook has info for ${size} people</div>
+  <div>${time}</div>`)
+})
+
   
   app.get('/persons', (req, res) => {
     res.json(persons)

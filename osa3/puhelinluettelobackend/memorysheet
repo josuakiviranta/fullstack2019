@@ -4,3 +4,9 @@ $ npm init
 nodemonin muodostaminen, jotta appi päivittyy automaattisesti kun koodia
 muutetaan
 $ npm install --save-dev nodemon
+
+päivitä projektin riippuvuudet
+$ npm update
+
+toisella koneella ajantasaiset package.json:in yhteensopivat riippuvuudet (Ei ihan hajua mitä siis tekee)
+$ npm install
