@@ -1,2 +1,2 @@
-linkki backendin tietokantaan:
-https://puhelinluettelo-backend-testi.herokuapp.com/api/persons
+linkki puhelinluettelon sovellukseen:
+https://puhelinluettelo-backend-testi.herokuapp.com/
