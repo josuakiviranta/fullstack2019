@@ -1,3 +1,4 @@
+const http = require('http')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -90,7 +91,7 @@ app.delete('/api/persons/:id', (req, res) => {
   res.status(204).end()
 })
 
-const port = 3001
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
