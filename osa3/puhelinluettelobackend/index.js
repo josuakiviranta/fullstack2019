@@ -1,9 +1,10 @@
-//const http = require('http')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
+app.use(cors())
 app.use(bodyParser.json())
 
 morgan.token('body', function (req, res) {
@@ -53,7 +54,7 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 const generateId = () => {
-  const rand = 100
+  const rand = 100000
   return Math.floor(Math.random() * Math.floor(rand))
 }
 
