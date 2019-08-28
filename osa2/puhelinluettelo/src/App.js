@@ -29,12 +29,12 @@ const App = () => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    const id = Number(e.target.id)
+    const id = e.target.id
     const person = persons.find(p => p.id === id)
     if (window.confirm(`Delte ${person.name} ?`)) {
       personService
         .deletePerson(person.id)
-        .then(() => {
+        .then(result => {
           setPersons(persons.filter(p => p.id !== id))
         })
     }
@@ -58,16 +58,21 @@ const App = () => {
   }
 
   // help function for addPerson
+  // Ongelma kun error saadaan.
 
   const confirmNumberChange = (person) => {
     if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
       const changedPerson = { ...person, number: newNumber }
+      persons.forEach(p => console.log('person:', p))
+      console.log('changed person id:', changedPerson.id)
       personService
         .update(changedPerson.id, changedPerson)
         .then(returnedPerson => {
+          console.log('returned person id:', returnedPerson.id)
           setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
         })
         .catch(error => {
+          console.log('error:', error.message)
           setErrorMessage(`Information of ${person.name} has already been removed from server`)
           setPersons(persons.filter(p => p.id !== person.id))
           setTimeout(() => {
