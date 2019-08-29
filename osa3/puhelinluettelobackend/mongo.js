@@ -1,5 +1,5 @@
-require('dotenv').config()
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 /*
 if (process.argv.length < 3) {
@@ -8,14 +8,14 @@ if (process.argv.length < 3) {
 }
 */
 
-const password = process.argv[2]
+// const password = process.argv[2]
 const name = process.argv[3]
 const number = process.argv[4]
 
 const url = process.env.MONGODB_URI
 
-// `mongodb+srv://fullstack:${password}@phonebook-28vo8.mongodb.net/person-app?retryWrites=true&w=majority`
 console.log('connecting to url', url)
+
 
 mongoose.connect(url, { useNewUrlParser: true })
     .then(result => {

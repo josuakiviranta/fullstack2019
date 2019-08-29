@@ -53,8 +53,6 @@ app.get('/api/info', (req, res) => {
 })
 
 
-
-
 app.get('/api/persons', (req, res) => {
   Person.find({})
     .then(persons => {
@@ -67,6 +65,7 @@ app.get('/api/persons/:id', (req, res, next) => {
   Person.findById(req.params.id)
     .then(person => {
       if (person) {
+        console.log(person.toJSON())
         res.json(person.toJSON())
       } else {
         res.status(204).end()
@@ -100,19 +99,22 @@ const generateId = () => {
 }
 
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const body = req.body
-  const names = persons.map(person => person.name)
 
-  if (!body.name || !body.number) {
-    return res.status(400).json({
-      error: 'name or number is missing'
-    })
-  } else if (names.find(name => name === body.name)) {
-    return res.status(400).json({
-      error: 'name must be unique'
-    })
-  }
+  //const names = persons.map(person => person.name)
+
+  /*
+    if (!body.name || !body.number) {
+      return res.status(400).json({
+        error: 'name or number is missing'
+      })
+    } else if (names.find(name => name === body.name)) {
+      return res.status(400).json({
+        error: 'name must be unique'
+      })
+    }
+  */
 
   const person = new Person({
     name: body.name,
@@ -122,9 +124,11 @@ app.post('/api/persons', (req, res) => {
 
   persons.concat(person)
 
-  person.save().then(savedPerson => {
-    res.json(savedPerson.toJSON())
-  })
+  person.save()
+    .then(savedPerson => {
+      res.json(savedPerson.toJSON())
+    })
+    .catch(error => next(error))
 })
 
 
@@ -150,6 +154,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError' && error.kind == 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
@@ -157,7 +163,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
