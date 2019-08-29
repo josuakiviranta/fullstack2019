@@ -19,6 +19,7 @@ morgan.token('body', function (req, res) {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
+  /*
   {
     name: "Arto Hellas",
     number: "040-123456",
@@ -34,29 +35,39 @@ let persons = [
     number: "39-23-6423122",
     id: 4
   }
+  */
 ]
 
 app.use(express.static('build'))
 
+
 app.get('/api/info', (req, res) => {
-  const size = persons.length
-  const time = new Date()
-  res.send(`
+  Person.find({})
+    .then(persons => {
+      const size = persons.length
+      const time = new Date()
+      res.send(`
   <div>Phonebook has info for ${size} people</div>
   <div>${time}</div>`)
+    })
 })
 
+
+
+
 app.get('/api/persons', (req, res) => {
-  Person.find({}).then(persons => {
-    res.json(persons.map(person => person.toJSON()))
-  })
+  Person.find({})
+    .then(persons => {
+      res.json(persons.map(person => person.toJSON()))
+    })
 })
+
 
 app.get('/api/persons/:id', (req, res, next) => {
   Person.findById(req.params.id)
     .then(person => {
       if (person) {
-      res.json(person.toJSON())
+        res.json(person.toJSON())
       } else {
         res.status(204).end()
       }
@@ -65,6 +76,23 @@ app.get('/api/persons/:id', (req, res, next) => {
       next(error)
     })
 })
+
+
+app.put('/api/persons/:id', (req, res, next) => {
+  const body = req.body
+
+  const person = {
+    name: body.name,
+    number: body.number
+  }
+
+  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    .then(updatedPerson => {
+      res.json(updatedPerson.toJSON())
+    })
+    .catch(error => next(error))
+})
+
 
 const generateId = () => {
   const rand = 100000
@@ -99,15 +127,16 @@ app.post('/api/persons', (req, res) => {
   })
 })
 
+
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
- .then(result => {
-   res.status(204).end()
- })
- .catch(error => {
-   console.log(error)
-   next(error)
- })
+    .then(result => {
+      res.status(204).end()
+    })
+    .catch(error => {
+      console.log(error)
+      next(error)
+    })
 })
 
 const unknownEndpoint = (request, response) => {
