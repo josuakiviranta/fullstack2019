@@ -56,36 +56,38 @@ const App = () => {
       setShowAll(true)
     }
   }
-
-  // help function for addPerson
-  // Ongelma kun error saadaan.
-
+  
   const confirmNumberChange = (person) => {
     if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
       const changedPerson = { ...person, number: newNumber }
-      persons.forEach(p => console.log('person:', p))
-      console.log('changed person id:', changedPerson.id)
+
       personService
         .update(changedPerson.id, changedPerson)
         .then(returnedPerson => {
-          console.log('returned person id:', returnedPerson.id)
           setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
         })
         .catch(error => {
-          console.log('error:', error.message)
-          setErrorMessage(`Information of ${person.name} has already been removed from server`)
+         // setErrorMessage(`Information of ${person.name} has already been removed from server`)
+          shwoErrorMessage(`Information of ${person.name} has already been removed from server`)
           setPersons(persons.filter(p => p.id !== person.id))
-          setTimeout(() => {
+          /*setTimeout(() => {
             setErrorMessage(null)
-          }, 7000)
+          }, 7000) */
         })
     }
   }
 
-  const showSuccessMessage = (name) => {
-    setSuccessMessage(`Added ${name}`)
+  const showSuccessMessage = (message) => {
+    setSuccessMessage(message)
     setTimeout(() => {
       setSuccessMessage(null)
+    }, 7000)
+  }
+
+  const shwoErrorMessage = (message) => {
+    setErrorMessage(message)
+    setTimeout(() =>  {
+      setErrorMessage(null)
     }, 7000)
   }
 
@@ -105,7 +107,10 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
-          showSuccessMessage(returnedPerson.name)
+          showSuccessMessage(`Added ${returnedPerson.name}`)
+        })
+        .catch(error => {
+          shwoErrorMessage(error.response.data["error"])
         })
     }
   }
