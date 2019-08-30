@@ -1,6 +1,12 @@
 frontin-osoite:
 https://puhelinluettelo-backend-testi.herokuapp.com/
 
+push heroku:
+git push heroku master
+
+config heroku:
+heroku config:set MONGODB_URI=mongodb+srv://fullstack:c4tjmaBSKpXGHYiw@phonebook-28vo8.mongodb.net/person-app?retryWrites=true&w=majority
+
 npm backendin muodostaminen
 $ npm init
 
