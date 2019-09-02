@@ -11,7 +11,7 @@ const listWithOneBlog = [
     }
 ]
 
-const listWithThreeBlogs = [
+const listWithFourBlogs = [
     {
         _id: '5a422aa71b54a676234d17f8',
         title: 'Go To Statement Considered Harmful',
@@ -23,6 +23,14 @@ const listWithThreeBlogs = [
     {
         _id: '5a422aa71b54a676234d17f9',
         title: "Testi blogi",
+        author: "Josua",
+        url: "josu.blogi.fi",
+        likes: 42,
+        __v: 0
+    },
+    {
+        _id: '5a422aa71b54a676234d27f9',
+        title: "Testi blogi 2",
         author: "Josua",
         url: "josu.blogi.fi",
         likes: 42,
@@ -58,8 +66,8 @@ describe('totalLikes', () => {
     })
 
     test('of a bigger list is calculated right', () => {
-        const result = listHelper.totalLikes(listWithThreeBlogs)
-        expect(result).toBe(90)
+        const result = listHelper.totalLikes(listWithFourBlogs)
+        expect(result).toBe(132)
     })
 })
 
@@ -84,7 +92,7 @@ describe('favouriteBlog', () => {
     })
 
     test('of a bigger list gives a right blog', () => {
-        const result = listHelper.favoriteBlog(listWithThreeBlogs)
+        const result = listHelper.favoriteBlog(listWithFourBlogs)
         expect(result).toEqual(
             {
                 _id: '5a422aa71b54a676234d12f8',
@@ -94,6 +102,27 @@ describe('favouriteBlog', () => {
                 likes: 43,
                 __v: 0
             }
+        )
+    })
+})
+
+describe('Most blogs by author', () => {
+
+    test('of empty list is {}', () =>{
+        expect(listHelper.mostBlogs([])).toEqual({})
+    })
+
+    test('when list of one then equal to only objec in there', () => {
+        const result = listHelper.mostBlogs(listWithOneBlog)
+        expect(result).toEqual(
+            { author: 'Edsger W. Dijkstra', blogs: 1 }
+        )
+    })
+
+    test('of a bigger list gives a right result', () => {
+        const result = listHelper.mostBlogs(listWithFourBlogs)
+        expect (result).toEqual(
+            { author: 'Josua', blogs: 2}
         )
     })
 
