@@ -1,14 +1,14 @@
-const lodash = require('lodash')
+const _ = require('lodash')
 
 const dummy = (blogs) => {
     return 1
-  }
+}
 
 const totalLikes = (blogs) => blogs.reduce((sum, blog) => sum + blog.likes, 0)
 
 const favoriteBlog = (blogs) => {
     const reducer = (mostLikedBlog, comparingBlog) => {
-        if (mostLikedBlog.likes >= comparingBlog.likes ) {
+        if (mostLikedBlog.likes >= comparingBlog.likes) {
             return mostLikedBlog
         } else {
             return comparingBlog
@@ -18,55 +18,60 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    /*
-    const testReducer = (authorForMostBlogs, comparingAuthor) => {
-        const blogsByAuthor = lodash.groupBy(blogs, comparingAuthor.author)
-        console.log('Blogs by author', blogsByAuthor)
-        const numberOfBlogs = Object.keys(blogsByAuthor).length
-            const author = {
-            author: comparingAuthor.author,
-            blogs: numberOfBlogs
-        }
-        console.log('Author', author)
-        if (author.blogs >= authorForMostBlogs.blogs) {
-            // console.log('Author', author)
-            return author
-        } else {
-            console.log('Author for most blogs', authorForMostBlogs)
-            return authorForMostBlogs
-        }
-    }
-    */
+    const blogCount = _.countBy(blogs, 'author')
+
+    const arr = Object.keys(blogCount)
+        .map(key => ({ author: key, blogs: blogCount[key] }))
 
     const reducer = (authorForMostBlogs, comparingAuthor) => {
-        const blogCount = blogs
-        .filter(blog => blog.author === comparingAuthor.author)
-        .length
-
-        const author =  {
-            author: comparingAuthor.author,
-            blogs: blogCount
-        }
-        
-        if (authorForMostBlogs.author === undefined) {
-            return author
-        } else if (author.blogs >= authorForMostBlogs.blogs) {
-            return author
+        if (authorForMostBlogs.author === undefined || comparingAuthor.blogs >= authorForMostBlogs.blogs) {
+            return comparingAuthor
         } else {
             return authorForMostBlogs
         }
     }
+    return arr.reduce(reducer, {})
+}
 
-    const result = blogs.reduce(reducer, {})
-    console.log('RESULT', result)
-    console.log('----')
-    return blogs.reduce(reducer, {})
+const mostLikes = (blogs) => {
+    const arr = blogs
+        .map(blog =>
+            ({
+                author: blog.author,
+                likes: blog.likes
+            }))
+
+    const groupedWithLikes = arr.reduce((authors, author) => {
+        if (Object.keys(authors).includes(author.author)) {
+            authors[author.author] += author.likes
+        } else {
+            authors[author.author] = author.likes
+        }
+        return authors
+    }, {})
+
+    const arrWithLikes = Object.keys(groupedWithLikes)
+        .map(key =>
+            ({
+                author: key,
+                likes: groupedWithLikes[key]
+            }))
+
+    const reducer = (authorForMostLikes, comparingAuthor) => {
+        if (authorForMostLikes.author === undefined || comparingAuthor.likes >= authorForMostLikes.likes) {
+            return comparingAuthor
+        } else {
+            return authorForMostLikes
+        }
     }
+    return arrWithLikes.reduce(reducer, {})
+}
 
 
-  module.exports = {
+module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
     mostBlogs,
-  }
+    mostLikes,
+}
