@@ -108,7 +108,7 @@ describe('favouriteBlog', () => {
 
 describe('Most blogs by author', () => {
 
-    test('of empty list is {}', () =>{
+    test('of empty list is {}', () => {
         expect(listHelper.mostBlogs([])).toEqual({})
     })
 
@@ -122,13 +122,14 @@ describe('Most blogs by author', () => {
     test('of a bigger list gives a right result', () => {
         const result = listHelper.mostBlogs(listWithFourBlogs)
         expect(result).toEqual(
-            { author: 'Josua', blogs: 2}
+            { author: 'Josua', blogs: 2 }
         )
     })
 })
 
 describe('Most likes by author', () => {
-    test('of empty list is {}', () =>{
+    
+    test('of empty list is {}', () => {
         expect(listHelper.mostLikes([])).toEqual({})
     })
 
@@ -142,7 +143,12 @@ describe('Most likes by author', () => {
     test('of a bigger list gives a right result', () => {
         const result = listHelper.mostLikes(listWithFourBlogs)
         expect(result).toEqual(
-            { author: 'Josua', likes: 84}
+            { author: 'Josua', likes: 84 }
         )
     })
 })
+
+module.exports = {
+    listWithOneBlog,
+    listWithFourBlogs
+}
