@@ -137,6 +137,31 @@ describe('addition of a new note', () => {
     })
 })
 
+describe('changesing a blog conext',  () => {
+
+    test('changesing likes for a blog', async () => {
+    const blogsAtStart = await helper.blogsInDB()
+    const blogToChange = await blogsAtStart[0]
+        
+    const newBlog = {
+        title: blogToChange.title,
+        author: blogToChange.author,
+        url: blogToChange.url,
+        likes: 100
+    }
+
+    await api
+        .put(`/api/blogs/${blogToChange.id}`)
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDB()
+
+    expect(blogsAtStart.length).toBe(blogsAtEnd.length)
+})
+})
+
 describe('deletion of a blog', () => {
     test('succeeds with status code 204 if id is valid', async () => {
         const blogsAtStart = await helper.blogsInDB()
