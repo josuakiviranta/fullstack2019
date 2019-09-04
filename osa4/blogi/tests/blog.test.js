@@ -22,6 +22,33 @@ beforeEach(async () => {
 
 })
 
+test('If title or url are not defined --> response 400 Bad request', async () =>{
+    const blogWithoutUrl = {
+        title: 'Hipster lifeee',
+        author: 'Hip mc swag',
+        likes: 15
+    }
+
+    const blogWithoutTitle = {
+        author: 'Hip mc swag',
+        url: 'pirkko.manttila.fi',
+        likes: 15
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(blogWithoutUrl)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+    await api
+    .post('/api/blogs')
+    .send(blogWithoutTitle)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+})
+
 test('if likes is not defined likes will be defined with value 0', async () => {
     const blogWithoutLikes = {
         title: 'Hipster lifeee',
@@ -32,7 +59,7 @@ test('if likes is not defined likes will be defined with value 0', async () => {
     await api
         .post('/api/blogs')
         .send(blogWithoutLikes)
-        .expect(201)
+        .expect(200)
         .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
@@ -77,7 +104,7 @@ test('a valid blog can be added ', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog)
-        .expect(201)
+        .expect(200)
         .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
