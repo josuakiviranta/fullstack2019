@@ -8,7 +8,6 @@ blogsRouter.get('/', async (request, response) => {
   
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
-    
   const blog = new Blog({
       title: body.title,
       author: body.author,
@@ -23,5 +22,14 @@ blogsRouter.post('/', async (request, response, next) => {
       next(exception)
     } 
   })
+  
+blogsRouter.delete('/:id', async (request, response, next) => {
+  try {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } catch (exception) {
+    next(exception)
+  }
+})
   
 module.exports = blogsRouter
