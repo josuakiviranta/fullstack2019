@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const Blog = require('../models/blog')
 
 const initialBlogs = [
     {
@@ -102,6 +103,10 @@ const mostLikes = (blogs) => {
     return arrWithLikes.reduce(reducer, {})
 }
 
+const blogsInDB = async () => {
+    const blogs = await Blog.find({})
+    return blogs.map(blog => blog.toJSON())
+}
 
 module.exports = {
     dummy,
@@ -110,4 +115,5 @@ module.exports = {
     mostBlogs,
     mostLikes,
     initialBlogs,
+    blogsInDB,
 }
