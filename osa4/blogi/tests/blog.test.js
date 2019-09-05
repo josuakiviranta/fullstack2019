@@ -3,7 +3,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-const helper = require('../utils/list_helper')
+const helper = require('./test_helper')
 
 describe('when there is initially some notes saved', () => {
     beforeEach(async () => {
