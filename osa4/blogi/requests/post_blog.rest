@@ -1,10 +1,11 @@
 POST  http://localhost:3003/api/blogs
 Content-Type:  application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ
 
 {
-    "title": "Kuuma linja",
+    "title": "XXX",
     "author": "Maria",
-    "url": "maria.maria.fi",
-    "likes": 42,
+    "url": "maria.xxx.fi",
+    "likes": 101,
     "userId": "5d70dad132c1303d5462f460"
 }
