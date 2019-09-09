@@ -57,6 +57,27 @@ describe('when there is initially one user at db', () => {
     })
 })
 
+describe('When posting new user', () => {
+    test('Too short password', async () => {
+        const usersAtStart = await helper.usersInDB()
+
+        const newUser = {
+            username: 'Too short pasw',
+            name: 'Short',
+            password: '12'
+        }
+
+        const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+        expect(result.body.error).toContain('too short password')
+        const usersAtEnd = await helper.usersInDB()
+        expect(usersAtEnd.length).toBe(usersAtStart.length)
+    })
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
