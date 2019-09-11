@@ -1,21 +1,27 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response) => {
-     const blogs =  await Blog
-     .find({}).populate('user', { username: 1, name: 1})
-     
-     response.json(blogs.map(blog => blog.toJSON()))
-  })
-  
+  const blogs = await Blog
+    .find({}).populate('user', { username: 1, name: 1 })
+
+  response.json(blogs.map(blog => blog.toJSON()))
+})
+
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
+ 
+  try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    
+    const user = await User.findById(body.userId)
 
-  const user = await User.findById(body.userId)
-  console.log('User inside blog post', user)
-
-  const blog = new Blog({
+    const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
@@ -23,15 +29,15 @@ blogsRouter.post('/', async (request, response, next) => {
       user: user._id
     })
 
-    try {
-      const savedBlog = await blog.save()
-      user.blogs = user.blogs.concat(savedBlog._id)
-      await user.save()
-      response.json(savedBlog.toJSON())
-    } catch (exception) {
-      next(exception)
-    } 
-  })
+
+    const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
+    response.json(savedBlog.toJSON())
+  } catch (exception) {
+    next(exception)
+  }
+})
 
 blogsRouter.put('/:id', async (request, response, next) => {
   const body = request.body
@@ -43,13 +49,13 @@ blogsRouter.put('/:id', async (request, response, next) => {
     likes: body.likes
   }
   try {
-  const changedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-  response.json(changedBlog.toJSON())
+    const changedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    response.json(changedBlog.toJSON())
   } catch (exception) {
     next(exception)
   }
 })
-  
+
 blogsRouter.delete('/:id', async (request, response, next) => {
   try {
     await Blog.findByIdAndRemove(request.params.id)
@@ -58,5 +64,5 @@ blogsRouter.delete('/:id', async (request, response, next) => {
     next(exception)
   }
 })
-  
+
 module.exports = blogsRouter

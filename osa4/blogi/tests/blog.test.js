@@ -4,6 +4,7 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
+const jwt = require('jsonwebtoken')
 
 describe('when there is initially some notes saved', () => {
     beforeEach(async () => {
@@ -57,19 +58,22 @@ describe('viewing a spesific blog', () => {
 
 
 })
-
+// ############################################################################
 describe('addition of a new note', () => {
-
     test('a valid blog can be added ', async () => {
         const newBlog = helper.initialBlogs[0]
 
         const blogsAtStart = await helper.blogsInDB()
+        
+        blogsAtStart.forEach(blog => console.log('Blog:', blog))
 
         await api
             .post('/api/blogs')
             .send(newBlog)
             .expect(200)
             .expect('Content-Type', /application\/json/)
+
+        console.log('Test: valid blog 2')
 
         const blogsAtEnd = await helper.blogsInDB()
 
