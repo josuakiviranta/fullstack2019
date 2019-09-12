@@ -2,6 +2,8 @@ import React from 'react'
 
 
 const LoginForm = ({ username, password, handleLogin, userCallback, passwordCallback }) => (
+    <div>
+        <h1>log into application</h1>
     <form onSubmit={handleLogin}>
     <div>
       username
@@ -10,7 +12,6 @@ const LoginForm = ({ username, password, handleLogin, userCallback, passwordCall
         value={username}
         name="Username"
         onChange={({ target }) => userCallback(target.value)}
-        //onChange={({ target }) => App.placeUser(target.value)}
       />
     </div>
     <div>
@@ -20,11 +21,11 @@ const LoginForm = ({ username, password, handleLogin, userCallback, passwordCall
         value={password}
         name="Password"
         onChange={({ target }) => passwordCallback(target.value)}
-        //onChange={({ target }) => App.setPassword(target.value)}
       />
     </div>
     <button type="submit">login</button>
   </form>
+  </div>
 )
 
 export default LoginForm

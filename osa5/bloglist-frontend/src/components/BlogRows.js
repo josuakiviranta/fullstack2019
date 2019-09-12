@@ -14,7 +14,9 @@ const BlogRows = ({ blogs, user }) => {
     console.log('User === null ?', user)
     return (
         <div>
+            <h1>blogs</h1>
             {user.name} logged in
+            <p></p>
             {rows()}
         </div>
     )

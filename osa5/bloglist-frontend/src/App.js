@@ -52,11 +52,8 @@ const handleLogin = async (event) => {
 
   return (
     <div className="App">
-      <h1>Blogs</h1>
 
       <Notification message={errorMessage} />
-
-      <h2>Login</h2>
 
       {user === null ?
       <LoginForm 
