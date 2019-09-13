@@ -1,6 +1,6 @@
 import React from 'react'
 import Blog from './Blog'
-const BlogRows = ({ blogs, user }) => {
+const BlogRows = ({ blogs, user, handleLogout }) => {
     const rows = () => {
         return (blogs.map(blog =>
             <Blog
@@ -15,7 +15,10 @@ const BlogRows = ({ blogs, user }) => {
     return (
         <div>
             <h1>blogs</h1>
-            {user.name} logged in
+            <div>
+                {user.name} logged in
+                <button id={user.id} onClick={handleLogout}>logout</button>
+            </div>
             <p></p>
             {rows()}
         </div>

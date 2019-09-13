@@ -3,6 +3,9 @@
 #Memorysheet
 memorysheet
 
+#Log
+log
+
 # dependencies
 /node_modules
 /.pnp

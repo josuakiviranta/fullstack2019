@@ -14,6 +14,30 @@ const [user, setUser] = useState(null)
 const [errorMessage, setErrorMessage] = useState(null)
 
 
+useEffect(() => {
+  console.log('Fetching token from local storage')
+  const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+  if (loggedUserJSON) {
+    const user = JSON.parse(loggedUserJSON)
+    setUser(user)
+    blogService.setToken(user.token)
+    // window.localStorage.clear()
+  }
+}, [])
+
+
+useEffect(() =>{
+  const fetchBlogs = async () => {
+    const blogs = await blogService.getAll()
+    setBlogs(blogs)
+  }
+  // window.localStorage.clear()
+  fetchBlogs()
+}, [])
+
+console.log('Blogs', blogs)
+console.log('User:', user)
+
 const userCallback = (username) => {
   setUsername(username)
 }
@@ -28,7 +52,13 @@ const handleLogin = async (event) => {
     const user = await loginService.login({
       username, password,
     })
+    
+    window.localStorage.setItem(
+      'loggedBlogappUser', JSON.stringify(user)
+    )
+    
 
+    blogService.setToken(user.token)
     setUser(user)
     setUsername('')
     setPassword('')
@@ -40,15 +70,20 @@ const handleLogin = async (event) => {
   }
 }
 
-  useEffect(() =>{
-    const fetchBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
-    fetchBlogs()
-  }, [])
-
-
+const handleLogout = async (event) => {
+  event.preventDefault()
+  try{
+    console.log('Inside logout')
+    // const user = JSON.parse(loggedUserJSON)
+    window.localStorage.clear()
+    setUser('')
+  } catch (exception) {
+    setErrorMessage('problem with loggingout')
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+}
 
   return (
     <div className="App">
@@ -61,9 +96,9 @@ const handleLogin = async (event) => {
       password={password} 
       handleLogin={handleLogin}
       userCallback={userCallback}
-      passwordCallback={passwordCallback} 
+      passwordCallback={passwordCallback}
       />
-      : <BlogRows blogs={blogs} user={user} />}
+      : <BlogRows blogs={blogs} user={user} handleLogout={handleLogout} />}
         
     </div> 
     ); 
