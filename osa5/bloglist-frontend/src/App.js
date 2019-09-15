@@ -18,7 +18,6 @@ function App() {
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
 
-
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -28,13 +27,11 @@ function App() {
     }
   }, [])
 
-
   useEffect(() => {
     const fetchBlogs = async () => {
       const blogs = await blogService.getAll()
       setBlogs(blogs)
     }
-    window.localStorage.clear()
     fetchBlogs()
   }, [])
 
@@ -45,23 +42,24 @@ function App() {
   const passwordCallback = (password) => {
     setPassword(password)
   }
-
+  
   const addBlog = (event) => {
     event.preventDefault()
-    console.log('inside add blog')
     const blogObject = {
       title: newTitle,
       author: newAuthor,
-      url: newUrl
+      url: newUrl,
+      user: user.id
     }
 
+    
     blogService
       .create(blogObject)
-      .then(() => {
-        console.log('created blog object')
+      .then(returnedBlog => {
         setNewTitle('')
         setNewAuthor('')
         setNewUrl('')
+        setBlogs(blogs.concat(returnedBlog))
       })
   }
 
