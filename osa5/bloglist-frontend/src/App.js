@@ -7,6 +7,7 @@ import LoginForm from './components/LoginForm'
 import BlogRows from './components/BlogRows';
 import BlogForm from './components/BlogForm';
 import LogoutButton from './components/LogoutButton';
+import SuccessNotification from './components/SuccessNotification';
 
 function App() {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +18,7 @@ function App() {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -60,7 +62,15 @@ function App() {
         setNewAuthor('')
         setNewUrl('')
         setBlogs(blogs.concat(returnedBlog))
+        showSuccessMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
       })
+  }
+
+  const showSuccessMessage = (message) => {
+    setSuccessMessage(message)
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 7000)
   }
 
   const handleTitleChange = (event) => {
@@ -91,7 +101,7 @@ function App() {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage('wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -115,6 +125,7 @@ function App() {
     <div className="App">
 
       <Notification message={errorMessage} />
+      <SuccessNotification message={successMessage} />
 
       {user === null ?
         <LoginForm
