@@ -8,6 +8,7 @@ import BlogRows from './components/BlogRows';
 import BlogForm from './components/BlogForm';
 import LogoutButton from './components/LogoutButton';
 import SuccessNotification from './components/SuccessNotification';
+import Togglable from './components/Togglable'
 
 function App() {
   const [blogs, setBlogs] = useState([])
@@ -44,7 +45,7 @@ function App() {
   const passwordCallback = (password) => {
     setPassword(password)
   }
-  
+
   const addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
@@ -54,7 +55,7 @@ function App() {
       user: user.id
     }
 
-    
+
     blogService
       .create(blogObject)
       .then(returnedBlog => {
@@ -138,22 +139,24 @@ function App() {
         :
         <div>
           <h1>blogs</h1>
-          <div> 
-          {user.name} logged in
-          <LogoutButton 
-          user={user}
-          handleLogout={handleLogout}
-          />  
+          <div>
+            {user.name} logged in
+          <LogoutButton
+              user={user}
+              handleLogout={handleLogout}
+            />
           </div>
-          <BlogForm
-            title={newTitle}
-            author={newAuthor}
-            url={newUrl}
-            handleTitleChange={handleTitleChange}
-            handleAuthorChange={handleAuthorChange}
-            handleUrlChange={handleUrlChange}
-            addBlog={addBlog}
-          />
+          <Togglable buttonLabel="new note">
+            <BlogForm
+              title={newTitle}
+              author={newAuthor}
+              url={newUrl}
+              handleTitleChange={handleTitleChange}
+              handleAuthorChange={handleAuthorChange}
+              handleUrlChange={handleUrlChange}
+              addBlog={addBlog}
+            />
+          </Togglable>
           <BlogRows
             blogs={blogs}
           />
