@@ -1,8 +1,8 @@
 import React from 'react'
 
-const LikeButton = () => {
+const LikeButton = ({blogId, addLike}) => {
     return(
-    <button>like</button>
+    <button id={blogId} onClick={addLike}>like</button>
     )
 }
 
