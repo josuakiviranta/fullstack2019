@@ -1,6 +1,7 @@
 import React from 'react'
 import Blog from './Blog'
 const BlogRows = ({ blogs, addLike }) => {
+    blogs.sort((a, b) => b.likes - a.likes)
     const rows = () => {
         return (blogs.map(blog =>
             <Blog
