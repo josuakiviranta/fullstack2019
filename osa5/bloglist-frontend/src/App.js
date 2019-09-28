@@ -21,6 +21,7 @@ function App() {
   const [newUrl, setNewUrl] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
 
+  
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -148,9 +149,9 @@ function App() {
     try {
       const id = await event.target.id
       const blog = blogs.find(b => b.id === id)
-      if(window.confirm(`Delete ${blog.title}?`)) {
-      await blogService.deleteBlog(id)
-      setBlogs(blogs.filter(b => b.id !== id))
+      if (window.confirm(`Delete ${blog.title}?`)) {
+        await blogService.deleteBlog(id)
+        setBlogs(blogs.filter(b => b.id !== id))
       }
     } catch (exception) {
       setErrorMessage("Problem with remove")
@@ -182,7 +183,7 @@ function App() {
               handleLogout={handleLogout}
             />
           </div>
-          <Togglable buttonLabel="new note">
+          <Togglable buttonLabel="new blog">
             <BlogForm
               title={newTitle}
               author={newAuthor}
@@ -197,6 +198,7 @@ function App() {
             blogs={blogs}
             addLike={addLike}
             removeBlog={removeBlog}
+            username={user.username}
           />
         </div>
       }

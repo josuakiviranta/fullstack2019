@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import LikeButton from './LikeButton'
 import RemoveButton from './RemoveButton'
 
-const Blog = ({ blog, addLike, removeBlog }) => {
+const Blog = ({ blog, addLike, removeBlog, username }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,12 +12,18 @@ const Blog = ({ blog, addLike, removeBlog }) => {
   }
 
   const [visible, setVisible] = useState(false)
+  const [removeVisible, setRemoveVisible] = useState(false)
 
   // const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
+  const removeButtonVisibility = { display: removeVisible ? '' : 'none'}
+
 
   const toggleVisibility = () => {
     setVisible(!visible)
+    if(username === blog.author) {
+     setRemoveVisible(true)
+    }
   }
 
   return (
@@ -29,7 +35,7 @@ const Blog = ({ blog, addLike, removeBlog }) => {
           {blog.likes} likes <LikeButton blogId={blog.id} addLike={addLike} />
         </div>
         <div>added by {blog.author}</div>
-        <div>
+        <div style={removeButtonVisibility}>
           <RemoveButton blogId={blog.id} removeBlog={removeBlog} />
         </div>
       </div>
