@@ -121,25 +121,36 @@ function App() {
     }
   }
 
-  
+
   const addLike = async (event) => {
     event.preventDefault()
-    try{
+    try {
       const id = await event.target.id
       const blog = await blogs.find(b => b.id === id)
-      
+
       const updatedObject = {
-          id : id,
-          likes : blog.likes + 1,
-          title: blog.title,
-          author: blog.author,
-          url: blog.url,
-          user: blog.user
+        id: id,
+        likes: blog.likes + 1,
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        user: blog.user
       }
       const returnedBlog = await blogService.update(updatedObject)
       setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
     } catch (exception) {
       setErrorMessage("Problem with addLike")
+    }
+  }
+
+  const removeBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const id = await event.target.id
+      await blogService.deleteBlog(id)
+      setBlogs(blogs.filter(b => b.id !== id))
+    } catch (exception) {
+      setErrorMessage("Problem with remove")
     }
   }
 
@@ -182,6 +193,7 @@ function App() {
           <BlogRows
             blogs={blogs}
             addLike={addLike}
+            removeBlog={removeBlog}
           />
         </div>
       }
