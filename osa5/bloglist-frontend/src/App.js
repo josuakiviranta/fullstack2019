@@ -147,8 +147,11 @@ function App() {
     event.preventDefault()
     try {
       const id = await event.target.id
+      const blog = blogs.find(b => b.id === id)
+      if(window.confirm(`Delete ${blog.title}?`)) {
       await blogService.deleteBlog(id)
       setBlogs(blogs.filter(b => b.id !== id))
+      }
     } catch (exception) {
       setErrorMessage("Problem with remove")
     }
