@@ -4,8 +4,6 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import { prettyDOM } from "@testing-library/dom";
 import SimpleBlog from "./SimpleBlog";
-import { async } from "q";
-//import { async } from "q";
 
 // afterEach(cleanup)
 
@@ -19,9 +17,10 @@ test("renders content", () => {
   const component = render(<SimpleBlog blog={simpleBlog} />);
 
   //component.debug()
-
+  /*
   const div = component.container.querySelector("div");
   console.log(prettyDOM(div));
+  */
 
   expect(component.container).toHaveTextContent(
     "Component testing is done with react-testing-library"
@@ -53,24 +52,3 @@ test("renders content", () => {
 
   expect(mockHandler.mock.calls.length).toBe(2)
 });
-
-/*
-    test("clicking the like button twice adds 2 likes", async () => {
-        const simpleBlog = {
-            title: "Component testing is done with react-testing-library",
-            author: "Josuaki",
-            likes: 42
-          };
-
-         
-
-          const component = render(<SimpleBlog blog={simpleBlog} />);
-          const button = component.getByText("like")
-
-          expect(component.container).toHaveTextContent(42);
-
-          fireEvent.click(button)
-
-          //expect(component.container).toHaveTextContent(43);
-    })
-*/

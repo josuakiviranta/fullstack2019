@@ -15,8 +15,8 @@ const Blog = ({ blog, addLike, removeBlog, username }) => {
   const [removeVisible, setRemoveVisible] = useState(false);
 
   // const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? "" : "none" };
-  const removeButtonVisibility = { display: removeVisible ? "" : "none" };
+  const showWhenVisible = { display: visible ? '' : 'none' };
+  const removeButtonVisibility = { display: removeVisible ? '' : 'none' };
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -27,8 +27,8 @@ const Blog = ({ blog, addLike, removeBlog, username }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={() => toggleVisibility()}>{blog.title} </div>
-      <div style={showWhenVisible}>
+      <div onClick={() => toggleVisibility()} className="title">{blog.title}</div>
+      <div style={showWhenVisible} className="togglableContent">
         <a href={blog.url}>{blog.url}</a>
         <div>
           {blog.likes} likes <LikeButton blogId={blog.id} addLike={addLike} />
