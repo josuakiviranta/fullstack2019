@@ -167,6 +167,7 @@ function App() {
 
       {user === null ?
         <LoginForm
+          className='LoginForm'
           username={username}
           password={password}
           handleLogin={handleLogin}

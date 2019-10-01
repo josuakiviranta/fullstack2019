@@ -16,9 +16,6 @@ test("at start the children are not displayed", () => {
   };
   const component = render(<Blog blog={blog} />);
   const div = component.container.querySelector(".togglableContent");
-  console.log(prettyDOM(div));
-  console.log("---------------------------------");
-
   expect(div).toHaveStyle("display: none");
 });
 
@@ -31,7 +28,6 @@ test("after clicking the button, children are displayed", () => {
   };
   const component = render(<Blog blog={blog} />);
   const title = component.container.querySelector(".title");
-  console.log(prettyDOM(title))
   fireEvent.click(title);
   const div = component.container.querySelector(".togglableContent");
   expect(div).toHaveStyle("display: ");
