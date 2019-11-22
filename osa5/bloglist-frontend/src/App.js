@@ -9,6 +9,7 @@ import BlogForm from './components/BlogForm';
 import LogoutButton from './components/LogoutButton';
 import SuccessNotification from './components/SuccessNotification';
 import Togglable from './components/Togglable'
+// import { useField } from './hooks'
 
 function App() {
   const [blogs, setBlogs] = useState([])
@@ -175,7 +176,7 @@ function App() {
           passwordCallback={passwordCallback}
         />
         :
-        <div>
+        <div className="BlogsView">
           <h1>blogs</h1>
           <div>
             {user.name} logged in

@@ -1,9 +1,0 @@
-PUT  http://localhost:3003/api/blogs/5d6a7d31977b69334fb7bb1e
-Content-Type: application/json
-
-{
-    "title": "Likejen muutoksen testaus",
-    "author": "Josua",
-    "url": "josu.blogi.fi",
-    "likes": 100
-}

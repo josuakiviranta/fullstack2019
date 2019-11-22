@@ -23,6 +23,6 @@ beforeAll(() => {
 
 afterAll(() => {
   console.error = originalError
-}) 
+})
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock })

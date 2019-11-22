@@ -1,28 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
+import { useField } from '../hooks'
+// import { constants } from 'crypto';
 
 
-const LoginForm = ({ username, password, handleLogin, userCallback, passwordCallback }) => {
+const LoginForm = ({ handleLogin, userCallback, passwordCallback }) => {
+  const usrname = useField('text')
+  const psword = useField('password')
+  
   return (
-    <div>
+    <div className="Login">
       <h1>log into application</h1>
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => userCallback(target.value)}
+          <input 
+          {...usrname}
+          {...userCallback(usrname.value)}
           />
         </div>
         <div>
           password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => passwordCallback(target.value)}
+          <input 
+          {...psword}
+          {...passwordCallback(psword.value)}
           />
         </div>
         <button type="submit">login</button>
@@ -31,6 +32,7 @@ const LoginForm = ({ username, password, handleLogin, userCallback, passwordCall
   )
 }
 
+/*
 LoginForm.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
@@ -38,5 +40,6 @@ LoginForm.propTypes = {
   userCallback: PropTypes.func.isRequired,
   passwordCallback: PropTypes.func.isRequired
 }
+*/
 
 export default LoginForm
