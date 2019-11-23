@@ -56,7 +56,8 @@ function App() {
       url: newUrl,
       user: user.id
     }
-
+    console.log('Inside Add blog')
+    console.log(blogObject.title)
     blogService
       .create(blogObject)
       .then(returnedBlog => {
@@ -76,15 +77,15 @@ function App() {
   }
 
   const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
+    setNewTitle(event)
   }
 
   const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
+    setNewAuthor(event)
   }
 
   const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
+    setNewUrl(event)
   }
 
   const handleLogin = async (event) => {

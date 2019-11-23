@@ -1,6 +1,46 @@
 import React from 'react'
+import { useField } from '../hooks'
+import { userInfo } from 'os';
 
 const BlogForm = ({ title, author, url, handleTitleChange, handleAuthorChange, handleUrlChange, addBlog }) => {
+    const blogtitle = useField('text')
+    const blogauthor = useField('text')
+    const blogurl = useField('text')
+    
+    return (
+        <div>
+            <h1>create new</h1>
+            <form onSubmit={addBlog}>
+                <div>
+                    title: 
+                    <input
+                        {...blogtitle}
+                        {...handleTitleChange(blogtitle.value)}
+                    />
+                </div>
+                <div>
+                    author: 
+                    <input
+                        {...blogauthor}
+                        {...handleAuthorChange(blogauthor.value)}
+                    />
+                </div>
+                <div>
+                    url:
+                     <input
+                        {...blogurl}
+                        {...handleUrlChange(blogurl.value)}
+                    />
+                </div>
+                <div>
+                    <button type="submit">create</button>
+                </div>
+            </form>
+        </div>
+    )
+    
+
+    /*
     return (
         <div>
             <h1>create new</h1>
@@ -35,6 +75,7 @@ const BlogForm = ({ title, author, url, handleTitleChange, handleAuthorChange, h
             </form>
         </div>
     )
+    */
 }
 
 export default BlogForm
