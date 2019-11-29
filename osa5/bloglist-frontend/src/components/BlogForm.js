@@ -6,6 +6,7 @@ const BlogForm = ({ title, author, url, handleTitleChange, handleAuthorChange, h
     const blogtitle = useField('text')
     const blogauthor = useField('text')
     const blogurl = useField('text')
+    const reset = useField('text')
     
     return (
         <div>
