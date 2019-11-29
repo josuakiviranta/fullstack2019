@@ -1,12 +1,10 @@
 import React from 'react'
 import { useField } from '../hooks'
-import { userInfo } from 'os';
 
 const BlogForm = ({ title, author, url, handleTitleChange, handleAuthorChange, handleUrlChange, addBlog }) => {
     const blogtitle = useField('text')
     const blogauthor = useField('text')
     const blogurl = useField('text')
-    const reset = useField('text')
     
     return (
         <div>

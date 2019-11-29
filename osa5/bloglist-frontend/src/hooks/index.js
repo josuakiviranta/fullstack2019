@@ -18,7 +18,3 @@ export const useField = (type) => {
         onClick
     }
 }
-
-export const useReset = (type) => {
-    
-}

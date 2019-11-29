@@ -56,8 +56,6 @@ function App() {
       url: newUrl,
       user: user.id
     }
-    console.log('Inside Add blog')
-    console.log(blogObject.title)
     blogService
       .create(blogObject)
       .then(returnedBlog => {
