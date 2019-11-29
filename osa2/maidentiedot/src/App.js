@@ -71,7 +71,6 @@ const App = () => {
   return (
     <div>
       <FilterForm newFilter={newFilter} handleFilterChange={handleFilterChange} />
-      {console.log('Show country', showCountry)}
       {countriesToShow.forEach(c => console.log(c))}
       {showCountry ? country.map(country => <Country key={country.name} country={country}/>) : rows()}
     </div>
