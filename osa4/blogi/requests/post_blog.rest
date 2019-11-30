@@ -1,0 +1,11 @@
+POST  http://localhost:3003/api/blogs
+Content-Type:  application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impvc3Vha2kiLCJpZCI6IjVkNzBkYWQxMzJjMTMwM2Q1NDYyZjQ2MCIsImlhdCI6MTU2ODA0MzM3OH0.qSevMlc74LOTd7cvPGD9AX7pYAjgBf2_tpwYpR34Uvg
+
+{
+    "title": "Vika testi",
+    "author": "Maria",
+    "url": "maria.xxxxx.fi",
+    "likes": 101,
+    "userId": "5d70dad132c1303d5462f460"
+}
