@@ -30,15 +30,16 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes + 1
       }
-      return state.map(anecdote => 
+      const changedState = state.map(anecdote => 
         anecdote.id !== id ? anecdote : changedAnecdote
       )
+      const sortedState = changedState.sort((a, b) => b.votes - a.votes)
+      return sortedState 
     case 'NEW_ANECDOTE':
       return state.concat(action.data)
     default:
       return state
   }
-  // return state
 }
 
 export default reducer
