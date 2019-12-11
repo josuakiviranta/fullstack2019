@@ -4,12 +4,28 @@ const App = (props) => {
   const anecdotes = props.store.getState()
   const store = props.store
 
+  const getId = () => (100000 * Math.random()).toFixed(0)
+
   const vote = (id) => {
     console.log('vote', id)
     store.dispatch({
       type: 'VOTE',
       data: { id }
     })
+  }
+
+  const addAnecdote = (event) => {
+    event.preventDefault()
+    const content = event.target.anecdote.value
+    store.dispatch({
+      type: 'NEW_ANECDOTE',
+      data: {
+        content,
+        id: getId(),
+        votes: 0
+      }
+    })
+    event.target.anecdote.value = ''
   }
 
   return (
@@ -27,9 +43,9 @@ const App = (props) => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={addAnecdote}>
+        <div><input name="anecdote"/></div>
+        <button type="submit">create</button>
       </form>
     </div>
   )
