@@ -7,11 +7,16 @@ const Notification = ({ store }) => {
     padding: 10,
     borderWidth: 1
   }
-  return (
-    <div style={style}>
-      {store.getState().notification}
-    </div>
-  )
+
+  if (store.getState().notification === null){
+    return null
+  }
+
+  return  <div style={style}>
+          {store.getState().notification}
+        </div>
+
+
 }
 
 export default Notification
