@@ -16,11 +16,11 @@ const Anecdotes = (props) => {
         return show
     }
     
-    const voteAnecdote = (anecdote) => {
-        props.store.dispatch(vote(anecdote.id))
-        props.store.dispatch(notifyVote(anecdote.content))
+    const handleAnecdoteVote = (anecdote) => {
+        props.vote(anecdote.id)
+        props.notifyVote(anecdote.content)
         setTimeout(() => {
-            props.store.dispatch(hideNotification())
+            props.hideNotification()
         }, 5000)
     }
 
@@ -32,7 +32,7 @@ const Anecdotes = (props) => {
                     key={anecdote.id}
                     anecdote={anecdote}
                     handleClick={() => 
-                        voteAnecdote(anecdote)                
+                        handleAnecdoteVote(anecdote)                
                     }
                     />
                 )}
@@ -48,6 +48,15 @@ const mapStateToProps = (state) => {
     }
 }
 
-const ConnectedAnecdotes = connect(mapStateToProps)(Anecdotes)
+const mapDispatchToProps = {
+    vote,
+    notifyVote,
+    hideNotification
+}
+
+const ConnectedAnecdotes = connect(
+    mapStateToProps,
+    mapDispatchToProps
+    )(Anecdotes)
 
 export default ConnectedAnecdotes
