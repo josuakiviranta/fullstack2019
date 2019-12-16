@@ -6,6 +6,16 @@ import { notifyVote, hideNotification } from '../reducers/notificationReducer'
 
 const Anecdotes = ({ store }) => {
 
+    const anecdotesToShow = () => {
+        const { anecdotes, filter } = store.getState()
+        const show = anecdotes.filter(anecdote =>
+            anecdote.content.toLowerCase().includes(filter.toLowerCase()))
+        if (filter === '') {
+            return anecdotes
+        }
+        return show
+    }
+    
     const voteAnecdote = (anecdote) => {
         store.dispatch(vote(anecdote.id))
         store.dispatch(notifyVote(anecdote.content))
@@ -14,15 +24,15 @@ const Anecdotes = ({ store }) => {
         }, 5000)
     }
 
+
     return (
         <ul>
-            {store.getState().anecdotes.map(anecdote =>
+            {anecdotesToShow().map(anecdote =>
                 <Anecdote
                     key={anecdote.id}
                     anecdote={anecdote}
                     handleClick={() => 
-                        voteAnecdote(anecdote)
-                  
+                        voteAnecdote(anecdote)                
                     }
                     />
                 )}
