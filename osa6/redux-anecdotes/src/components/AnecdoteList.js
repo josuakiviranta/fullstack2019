@@ -7,7 +7,6 @@ import { notifyVote, hideNotification } from '../reducers/notificationReducer'
 const Anecdotes = (props) => {
 
     const anecdotesToShow = () => {
-        // const { anecdotes, filter } = props.store.getState()
         const show = props.anecdotes.filter(anecdote =>
             anecdote.content.toLowerCase().includes(props.filter.toLowerCase()))
         if (props.filter === '') {
