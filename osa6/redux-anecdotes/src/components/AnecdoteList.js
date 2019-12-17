@@ -39,9 +39,6 @@ const anecdotesToShow = ({ anecdotes, filter }) => {
 }
 
 const mapStateToProps = (state) => {
-    //console.log(state)
-    /*const visibleAnecdotes = await { visibleAnecdotes: anecdotesToShow(state) }
-    return visibleAnecdotes*/
     return {
         visibleAnecdotes: anecdotesToShow(state),
     }
