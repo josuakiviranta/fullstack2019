@@ -2,15 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { notifyCreation, hideNotification } from '../reducers/notificationReducer'
+import anecdoteService from '../services/anecdotes'
 
 const AnecdoteForm = (props) => {
-    const addAnecdote = event => {
+    const addAnecdote = async (event) => {
       event.preventDefault();
       const content = event.target.anecdote.value;
       event.target.anecdote.value = "";
-      
+      const newAnecdote = await anecdoteService.createNew(content)
       props.notifyCreation(content)
-      props.createAnecdote(content)
+      props.createAnecdote(newAnecdote)
       setTimeout(() => {
         props.hideNotification()
       }, 5000)

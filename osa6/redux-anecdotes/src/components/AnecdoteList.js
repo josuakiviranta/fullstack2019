@@ -29,8 +29,9 @@ const AnecdoteList = (props) => {
 }
 
 const anecdotesToShow = ({ anecdotes, filter }) => {
+    anecdotes.forEach(a => console.log("ANECDOTES TO SHOW: ", a.content.toString().toLowerCase()))
     const show = anecdotes.filter(anecdote =>
-        anecdote.content.toLowerCase().includes(filter.toLowerCase()))
+        anecdote.content.toString().toLowerCase().includes(filter.toLowerCase()))
     if (filter === '') {
         return anecdotes
     }
@@ -38,7 +39,9 @@ const anecdotesToShow = ({ anecdotes, filter }) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
+    //console.log(state)
+    /*const visibleAnecdotes = await { visibleAnecdotes: anecdotesToShow(state) }
+    return visibleAnecdotes*/
     return {
         visibleAnecdotes: anecdotesToShow(state),
     }
