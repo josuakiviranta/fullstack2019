@@ -1,5 +1,6 @@
 import anecdoteService from '../services/anecdotes'
 
+/*
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -20,6 +21,7 @@ const asObject = (anecdote) => {
 }
 
 const initialState = anecdotesAtStart.map(asObject)
+*/
 
 const reducer = (state = [], action) => {
   console.log('action', action)
@@ -27,13 +29,8 @@ const reducer = (state = [], action) => {
   switch (action.type) {
     case 'VOTE':
       const id = action.votedAnecdote.id
-      /*const anecdoteToVote = state.find(a => a.id === id)
-      const changedAnecdote = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1
-      }*/
       const changedState = state.map(anecdote => 
-        anecdote.id !== id ? anecdote : action.votedAnecdote//changedAnecdote
+        anecdote.id !== id ? anecdote : action.votedAnecdote
       )
       const sortedState = changedState.sort((a, b) => b.votes - a.votes)
       return sortedState 
@@ -41,7 +38,7 @@ const reducer = (state = [], action) => {
       return state.concat(action.data)
     case 'INIT_ANECDOTES':
         const sorted = action.data.sort((a, b) => b.votes - a.votes)
-      return sorted //action.data
+      return sorted
     default:
       return state
   }
@@ -82,11 +79,5 @@ export const vote = (id) => {
       type: 'VOTE',
       votedAnecdote
     })
-    
-    
   }
-  /*return {
-    type: 'VOTE',
-    data: { id }
-  }*/
 }

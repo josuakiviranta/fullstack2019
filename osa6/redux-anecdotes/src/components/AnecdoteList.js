@@ -2,10 +2,9 @@ import React from 'react'
 import Anecdote from './Anecdote'
 import { connect } from 'react-redux'
 import { vote } from '../reducers/anecdoteReducer'
-import { notifyVote, hideNotification } from '../reducers/notificationReducer'
+import { hideNotification, setNotification } from '../reducers/notificationReducer'
 
 const anecdotesToShow = ({ anecdotes, filter }) => {
-    anecdotes.forEach(a => console.log("ANECDOTES TO SHOW: ", a.content.toString().toLowerCase()))
     const show = anecdotes.filter(anecdote =>
         anecdote.content.toString().toLowerCase().includes(filter.toLowerCase()))
     if (filter === '') {
@@ -17,10 +16,7 @@ const anecdotesToShow = ({ anecdotes, filter }) => {
 const AnecdoteList = (props) => {   
     const handleAnecdoteVote = (anecdote) => {
         props.vote(anecdote.id)
-        props.notifyVote(anecdote.content)
-        setTimeout(() => {
-            props.hideNotification()
-        }, 5000)
+        props.setNotification(`you voted '${anecdote.content}'`, 5)
     }
 
     return (
@@ -47,8 +43,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     vote,
-    notifyVote,
-    hideNotification
+    hideNotification,
+    setNotification
 }
 
 const ConnectedAnecdotes = connect(
