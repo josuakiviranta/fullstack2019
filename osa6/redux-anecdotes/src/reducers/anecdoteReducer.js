@@ -48,7 +48,7 @@ const reducer = (state = [], action) => {
 
 export default reducer
 
-export const initializeAnecdotes = (/*anecdotes*/) => {
+export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
     dispatch({
@@ -56,17 +56,15 @@ export const initializeAnecdotes = (/*anecdotes*/) => {
       data: anecdotes,
     })
   }
-  /*
-  return {
-    type: 'INIT_ANECDOTES',
-    data: anecdotes
-  }*/
 }
 
-export const createAnecdote = (data) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data
+export const createAnecdote = (content) => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: newAnecdote
+    })
   }
 } 
 

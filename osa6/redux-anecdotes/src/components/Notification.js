@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-// Renderöi redux storeen tallennetun viestin
 const Notification = (props) => {
   const style = {
     border: 'solid',

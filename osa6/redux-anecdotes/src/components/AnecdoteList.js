@@ -4,6 +4,16 @@ import { connect } from 'react-redux'
 import { vote } from '../reducers/anecdoteReducer'
 import { notifyVote, hideNotification } from '../reducers/notificationReducer'
 
+const anecdotesToShow = ({ anecdotes, filter }) => {
+    anecdotes.forEach(a => console.log("ANECDOTES TO SHOW: ", a.content.toString().toLowerCase()))
+    const show = anecdotes.filter(anecdote =>
+        anecdote.content.toString().toLowerCase().includes(filter.toLowerCase()))
+    if (filter === '') {
+        return anecdotes
+    }
+    return show
+}
+
 const AnecdoteList = (props) => {   
     const handleAnecdoteVote = (anecdote) => {
         props.vote(anecdote.id)
@@ -28,15 +38,6 @@ const AnecdoteList = (props) => {
     )
 }
 
-const anecdotesToShow = ({ anecdotes, filter }) => {
-    anecdotes.forEach(a => console.log("ANECDOTES TO SHOW: ", a.content.toString().toLowerCase()))
-    const show = anecdotes.filter(anecdote =>
-        anecdote.content.toString().toLowerCase().includes(filter.toLowerCase()))
-    if (filter === '') {
-        return anecdotes
-    }
-    return show
-}
 
 const mapStateToProps = (state) => {
     return {
