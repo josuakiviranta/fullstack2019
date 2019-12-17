@@ -19,7 +19,7 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = [], action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch (action.type) {
@@ -37,12 +37,21 @@ const reducer = (state = initialState, action) => {
       return sortedState 
     case 'NEW_ANECDOTE':
       return state.concat(action.data)
+    case 'INIT_ANECDOTES':
+      return action.data
     default:
       return state
   }
 }
 
 export default reducer
+
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data: anecdotes
+  }
+}
 
 export const createAnecdote = (content) => {
   return {
