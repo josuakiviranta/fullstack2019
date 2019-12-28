@@ -8,48 +8,71 @@ const Menu = (props) => {
   const padding = {
     paddingRight: 5
   }
+
+  const anecdoteById = (id) => 
+   props.anecdotes.find(a => Number(a.id) === Number(id))
+  
+
+  console.log("SOS", anecdoteById(1))
+  console.log("Anecdotes", props.anecdotes)
+  console.log("Props anecdoteById", props.anecdoteById("1"))
+  console.log("Anecdote", anecdoteById("1"))
+  //console.log("Content", anecdoteById(1).content)
+
   return (
     <div>
       <Router>
         <div>
-            <Link style={padding} to="/">anecdotes</Link>
-            <Link style={padding} to="/create new">create new</Link>
+            <Link style={padding} to="/anecdotes">anecdotes</Link>
+            <Link style={padding} to="/create">create new</Link>
             <Link style={padding} to="/about">about</Link>
         </div>
         <div>
-          <Route exact path="/" render={() => <AnecdoteList anecdotes={props.anecdotes}/>} />
-          <Route exact path="/create new" render={() => <CreateNew addNew={props.addNew}/>} />
-          <Route exact path="/about" render={() => <About/>} />
+          <Route exact path="/" render={() => 
+          <AnecdoteList anecdotes={props.anecdotes}/>
+          } />
+          <Route exact path="/anecdotes" render={() => 
+          <AnecdoteList anecdotes={props.anecdotes} />
+          } />
+          <Route exact path="/anecdotes/:id" render={({ match }) =>
+              <Anecdote anecdote={anecdoteById(match.params.id)}/>
+          } />
+          <Route exact path="/create" render={() => 
+            <CreateNew addNew={props.addNew}/>
+          } />
+          <Route exact path="/about" render={() => 
+            <About/>
+          } />
         </div>
       </Router>
     </div>
   )
-    /*
-    <div>
-      <Route exact path="/" render={() => <AnecdoteList/>} />
-      <Route exact path="/create new" render={() => <CreateNew/>} />
-      <Route exact path="/about" render={() => <About/>} />
-    </div>
-*/
-  /*
-  return (
-    <div>
-      <a href='#' style={padding}>anecdotes</a>
-      <a href='#' style={padding}>create new</a>
-      <a href='#' style={padding}>about</a>
-    </div>
-  )
-  */
+
 }
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => 
+        <li key={anecdote.id} >
+          <Link to={`anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
+      )}
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdote }) => {
+  return(
+    <div>
+      <h2> {`${anecdote.content} by ${anecdote.author}`}</h2>
+      <div>{`has ${anecdote.votes} votes`}</div>
+      <div>{`for more info see ${anecdote.info}`}</div>
+    </div>
+  )
+}
+
 
 const About = () => (
   <div>
@@ -154,26 +177,10 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} addNew={addNew}/>
+      <Menu anecdotes={anecdotes} addNew={addNew} anecdoteById={anecdoteById}/>
       <Footer />
     </div>
   )
 }
-
-/*
-<Router>
-  <div>
-    <Route exact path="/" render={() => <AnecdoteList anecdotes={anecdotes}/>} />
-    <Route exact path="/create new" render={() => <CreateNew addNew={addNew}/>} />
-    <Route exact path="/about" render={() => <About/>} />
-  </div>
-</Router>
-*/
-
-/*
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
-*/
 
 export default App;
