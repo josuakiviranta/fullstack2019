@@ -3,6 +3,11 @@ import {
 BrowserRouter as Router,
 Route, Link, Redirect, withRouter
 } from 'react-router-dom'
+import Notification from './components/Notification'
+import About from './components/About'
+import Footer from './components/Footer'
+import { hideNotification, setNotification } from './reducers/notificationReducer'
+
 
 const Menu = (props) => {
   const padding = {
@@ -21,6 +26,7 @@ const Menu = (props) => {
             <Link style={padding} to="/create">create new</Link>
             <Link style={padding} to="/about">about</Link>
         </div>
+        {/*<Notification/>*/}
         <p>{props.notification}</p>
         <div>
           <Route exact path="/" render={() => 
@@ -69,28 +75,6 @@ const Anecdote = ({ anecdote }) => {
 }
 
 
-const About = () => (
-  <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
-
-    <em>An anecdote is a brief, revealing account of an individual person or an incident.
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
-
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
-)
-
-const Footer = () => (
-  <div>
-    Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -sovelluskehitys</a>.
-
-    See <a href='https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
-  </div>
-)
-
 const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
@@ -105,6 +89,8 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+   // setNotification(`you voted '${content}'`, 2)
+
   }
 
   return (
@@ -130,7 +116,8 @@ const CreateNew = (props) => {
 
 }
 
-const App = () => {
+
+const App = (props) => {
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
