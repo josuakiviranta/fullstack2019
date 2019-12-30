@@ -13,12 +13,6 @@ const Menu = (props) => {
    props.anecdotes.find(a => Number(a.id) === Number(id))
   
 
-  console.log("SOS", anecdoteById(1))
-  console.log("Anecdotes", props.anecdotes)
-  console.log("Props anecdoteById", props.anecdoteById("1"))
-  console.log("Anecdote", anecdoteById("1"))
-  //console.log("Content", anecdoteById(1).content)
-
   return (
     <div>
       <Router>
@@ -27,6 +21,7 @@ const Menu = (props) => {
             <Link style={padding} to="/create">create new</Link>
             <Link style={padding} to="/about">about</Link>
         </div>
+        <p>{props.notification}</p>
         <div>
           <Route exact path="/" render={() => 
           <AnecdoteList anecdotes={props.anecdotes}/>
@@ -38,7 +33,7 @@ const Menu = (props) => {
               <Anecdote anecdote={anecdoteById(match.params.id)}/>
           } />
           <Route exact path="/create" render={() => 
-            <CreateNew addNew={props.addNew}/>
+            props.notification.length === 0 ?  <CreateNew addNew={props.addNew}/> : <Redirect to="/" />
           } />
           <Route exact path="/about" render={() => 
             <About/>
@@ -158,6 +153,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    setTimeout(() => {
+      setNotification('')
+    }, 10000)
   }
 
   const anecdoteById = (id) =>
@@ -177,7 +176,7 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} addNew={addNew} anecdoteById={anecdoteById}/>
+      <Menu anecdotes={anecdotes} addNew={addNew} anecdoteById={anecdoteById} notification={notification}/>
       <Footer />
     </div>
   )
