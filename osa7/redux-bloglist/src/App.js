@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './App.css';
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Notification from './components/ErrorNotification'
+import ErrorNotification from './components/ErrorNotification'
 import LoginForm from './components/LoginForm'
 import BlogRows from './components/BlogRows';
 import BlogForm from './components/BlogForm';
@@ -10,8 +10,12 @@ import LogoutButton from './components/LogoutButton';
 import SuccessNotification from './components/SuccessNotification';
 import Togglable from './components/Togglable'
 // import { useField } from './hooks'
+import { connect } from 'react-redux'
+import Notification from './components/Notification'
+import { hideNotification, setNotification } from './reducers/notificationReducer'
 
-function App() {
+
+function App(props) {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -63,15 +67,8 @@ function App() {
         setNewAuthor('')
         setNewUrl('')
         setBlogs(blogs.concat(returnedBlog))
-        showSuccessMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+        props.setNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, 2)
       })
-  }
-
-  const showSuccessMessage = (message) => {
-    setSuccessMessage(message)
-    setTimeout(() => {
-      setSuccessMessage(null)
-    }, 7000)
   }
 
   const handleTitleChange = (event) => {
@@ -102,10 +99,7 @@ function App() {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      props.setNotification('wrong username or password', 2)
     }
   }
 
@@ -115,10 +109,7 @@ function App() {
       window.localStorage.clear()
       setUser(null)
     } catch (exception) {
-      setErrorMessage('problem with loggingout')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      props.setNotification('problem with loggingout', 2)
     }
   }
 
@@ -140,7 +131,7 @@ function App() {
       const returnedBlog = await blogService.update(updatedObject)
       setBlogs(blogs.map(b => b.id !== blog.id ? b : returnedBlog))
     } catch (exception) {
-      setErrorMessage("Problem with addLike")
+      props.setNotification('Problem with addLike', 2)
     }
   }
 
@@ -154,16 +145,14 @@ function App() {
         setBlogs(blogs.filter(b => b.id !== id))
       }
     } catch (exception) {
-      setErrorMessage("Problem with remove")
+      props.setNotification('Problem with remove', 2)
     }
   }
 
 
   return (
     <div className="App">
-
-      <Notification message={errorMessage} />
-      <SuccessNotification message={successMessage} />
+      <Notification/>
 
       {user === null ?
         <LoginForm
@@ -207,4 +196,9 @@ function App() {
   );
 }
 
-export default App;
+const mapDispatchToProps = {
+  hideNotification,
+  setNotification
+}
+
+export default connect(null, mapDispatchToProps)(App);
