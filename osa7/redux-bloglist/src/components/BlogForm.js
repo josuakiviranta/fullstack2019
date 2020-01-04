@@ -1,34 +1,51 @@
 import React from 'react'
-import { useField } from '../hooks'
+import { connect } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { setNotification } from  '../reducers/notificationReducer'
 
-const BlogForm = ({ title, author, url, handleTitleChange, handleAuthorChange, handleUrlChange, addBlog }) => {
-    const blogtitle = useField('text')
-    const blogauthor = useField('text')
-    const blogurl = useField('text')
-    
+
+const BlogForm = (props) => {    
+    const blogObject = {
+        title: '',
+        author: '',
+        url: '',
+        user: '',
+        visible: false,
+        isAuthor: false
+    }
+
+    const addBlog = (event) => {
+        event.preventDefault();
+        const title = event.target.blogtitle.value
+        const author = event.target.blogauthor.value
+        const url = event.target.blogurl.value
+        blogObject.title = title
+        blogObject.author = author
+        blogObject.url = url
+        blogObject.user = props.user.id
+        event.target.blogtitle.value = ""
+        event.target.blogauthor.value = ""
+        event.target.blogurl.value = ""
+        props.setNotification(`added a new blog ${title}`, 2)
+        props.createBlog(blogObject)
+    }
     return (
         <div>
             <h1>create new</h1>
             <form onSubmit={addBlog}>
                 <div>
                     title: 
-                    <input
-                        {...blogtitle}
-                        {...handleTitleChange(blogtitle.value)}
+                    <input name="blogtitle"
                     />
                 </div>
                 <div>
                     author: 
-                    <input
-                        {...blogauthor}
-                        {...handleAuthorChange(blogauthor.value)}
+                    <input name="blogauthor"
                     />
                 </div>
                 <div>
                     url:
-                     <input
-                        {...blogurl}
-                        {...handleUrlChange(blogurl.value)}
+                     <input name="blogurl"
                     />
                 </div>
                 <div>
@@ -37,44 +54,20 @@ const BlogForm = ({ title, author, url, handleTitleChange, handleAuthorChange, h
             </form>
         </div>
     )
-    
-
-    /*
-    return (
-        <div>
-            <h1>create new</h1>
-            <form onSubmit={addBlog}>
-                <div>
-                    title: <input
-                        type="text"
-                        value={title}
-                        name="Blogtitle"
-                        onChange={handleTitleChange}
-                    />
-                </div>
-                <div>
-                    author: <input
-                        type="text"
-                        value={author}
-                        name="Author"
-                        onChange={handleAuthorChange}
-                    />
-                </div>
-                <div>
-                    url: <input
-                        type="text"
-                        value={url}
-                        name="Url"
-                        onChange={handleUrlChange}
-                    />
-                </div>
-                <div>
-                    <button type="submit">create</button>
-                </div>
-            </form>
-        </div>
-    )
-    */
 }
 
-export default BlogForm
+const mapStateToProps = (state) => {
+    return {
+        user: state.login
+    }
+}
+
+const mapDispatchToProps = {
+    createBlog,
+    setNotification
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps)
+    (BlogForm)

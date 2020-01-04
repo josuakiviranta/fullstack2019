@@ -1,23 +1,35 @@
 import React from 'react'
 import Blog from './Blog'
-const BlogRows = ({ blogs, addLike, removeBlog, username }) => {
-    blogs.sort((a, b) => b.likes - a.likes)
+import { connect } from 'react-redux'
+import { like } from '../reducers/blogReducer'
+
+const BlogRows = (props) => {
     
-    return (
-        <div>
-            <h1>blogs</h1>
-            {blogs.map(blog => (
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                    addLike={addLike}
-                    removeBlog={removeBlog}
-                    username={username}
-                />
-            )
-            )}
-        </div>
+    const blogList = props.blogs.map(blog => 
+            <Blog key={blog.id} id={blog.id} blog={blog} />
     )
+
+return (
+    <div>
+        <h1>blogs</h1>
+        <ul>
+            {blogList}
+        </ul>
+    </div>
+)
 }
 
-export default BlogRows
+const mapStateToProps = (state) => {
+    return {
+        blogs: state.blogs
+    }
+}
+
+const mapDispatchToProps = {
+    like
+}
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)
+    (BlogRows)

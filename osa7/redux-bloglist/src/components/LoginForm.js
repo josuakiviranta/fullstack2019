@@ -1,30 +1,39 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
-import { useField } from '../hooks'
-// import { constants } from 'crypto';
+import { connect } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
+import { setUser } from '../reducers/loginReducer'
 
-
-const LoginForm = ({ handleLogin, userCallback, passwordCallback }) => {
-  const usrname = useField('text')
-  const psword = useField('password')
+const LoginForm = (props) => {
+  const loginObject = {
+    username: null,
+    password: null
+  }
   
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const username = event.target.username.value;
+    const password = event.target.password.value;
+    loginObject.username = username
+    loginObject.password = password
+    try {
+    props.setUser(loginObject)
+    }catch (exception) {
+      props.setNotification('wrong username or password', 2)
+    }
+    
+  }
+
   return (
     <div className="Login">
       <h1>log into application</h1>
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input 
-          {...usrname}
-          {...userCallback(usrname.value)}
-          />
+          <input name="username"/>
         </div>
         <div>
           password
-          <input 
-          {...psword}
-          {...passwordCallback(psword.value)}
-          />
+          <input name="password" type="password" />
         </div>
         <button type="submit">login</button>
       </form>
@@ -32,14 +41,14 @@ const LoginForm = ({ handleLogin, userCallback, passwordCallback }) => {
   )
 }
 
-/*
-LoginForm.propTypes = {
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  handleLogin: PropTypes.func.isRequired,
-  userCallback: PropTypes.func.isRequired,
-  passwordCallback: PropTypes.func.isRequired
-}
-*/
 
-export default LoginForm
+const mapDispatchToProps = {
+  setNotification,
+  setUser: setUser
+}
+
+
+export default connect(
+  null,
+  mapDispatchToProps)
+  (LoginForm)

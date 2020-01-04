@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import LikeButton from "./LikeButton";
 import RemoveButton from "./RemoveButton";
+import { connect } from "react-redux"
+import { toggleVisibility, removeBlog } from "../reducers/blogReducer"
 
-const Blog = ({ blog, addLike, removeBlog, username }) => {
+const Blog = (props) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -11,35 +13,38 @@ const Blog = ({ blog, addLike, removeBlog, username }) => {
     marginBottom: 5
   };
 
-  const [visible, setVisible] = useState(false);
-  const [removeVisible, setRemoveVisible] = useState(false);
-
-  // const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' };
-  const removeButtonVisibility = { display: removeVisible ? '' : 'none' };
-
-  const toggleVisibility = () => {
-    setVisible(!visible);
-    if (username === blog.author) {
-      setRemoveVisible(true);
-    }
-  };
+  const showWhenVisible = { display: props.blog.visible ? '' : 'none' };
+  const removeButtonVisibility = { display: props.blog.isAuthor ? '' : 'none' };
 
   return (
     <div style={blogStyle}>
-      <div onClick={() => toggleVisibility()} className="title">{blog.title}</div>
+      <div onClick={() => props.toggleVisibility(props.blog, props.user)} className="title">{props.blog.title}</div>
       <div style={showWhenVisible} className="togglableContent">
-        <a href={blog.url}>{blog.url}</a>
+        <a href={props.blog.url}>{props.blog.url}</a>
         <div>
-          {blog.likes} likes <LikeButton blogId={blog.id} addLike={addLike} />
+          {props.blog.likes} likes 
+          <LikeButton blogId={props.id}  />
         </div>
-        <div>added by {blog.author}</div>
+        <div>added by {props.blog.author}</div>
         <div style={removeButtonVisibility}>
-          <RemoveButton blogId={blog.id} removeBlog={removeBlog} />
+          <RemoveButton id={props.id} />
         </div>
       </div>
     </div>
   );
-};
 
-export default Blog;
+};
+const mapStateToProps = (state) => {
+  return {
+    user: state.login
+  }
+}
+
+const mapDispatchToProps = {
+  toggleVisibility,
+  removeBlog
+} 
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(Blog);

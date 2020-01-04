@@ -1,9 +1,23 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { like } from '../reducers/blogReducer'
+import { hideNotification, setNotification } from '../reducers/notificationReducer'
 
-const LikeButton = ({blogId, addLike}) => {
+const LikeButton = (props) => {
     return(
-    <button id={blogId} onClick={addLike}>like</button>
+    <button
+    id={props.blogId} 
+    onClick={() => props.like(props.blogId)}>like</button>
     )
 }
 
-export default LikeButton
+const mapDispatchProps = {
+    like,
+    hideNotification,
+    setNotification
+}
+
+export default connect(
+    null,
+    mapDispatchProps)
+    (LikeButton)

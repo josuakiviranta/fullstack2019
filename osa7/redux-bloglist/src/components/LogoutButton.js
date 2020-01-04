@@ -1,9 +1,24 @@
 import React from 'react'
+import { connect } from 'react-redux' 
+import { handleLogout } from '../reducers/loginReducer'
 
-const LogoutButton = ({user, handleLogout}) => {
+const LogoutButton = (props) => {
     return(
-    <button id={user.id} onClick={handleLogout}>logout</button>
+    <button id={props.user.id} onClick={props.handleLogout}>logout</button>
     )
 }
 
-export default LogoutButton
+const mapStateToProps = (state) => {
+    return {
+        user: state.login
+    }
+}
+
+const mapDispatchToProps = {
+    handleLogout
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps)
+    (LogoutButton)

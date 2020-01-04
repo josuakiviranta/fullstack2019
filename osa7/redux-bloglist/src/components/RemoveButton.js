@@ -1,9 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { removeBlog } from '../reducers/blogReducer'
 
-const RemoveButton = ({blogId, removeBlog}) => {
+const RemoveButton = (props) => {
     return(
-    <button id={blogId} onClick={removeBlog}>remove</button>
+    <button
+    id={props.id} 
+    onClick={() => props.removeBlog(props.id)}>remove</button>
     )
 }
 
-export default RemoveButton
+const mapDispatchToProps = {
+    removeBlog
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(RemoveButton)
