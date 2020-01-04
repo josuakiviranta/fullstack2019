@@ -24,7 +24,7 @@ const blogReducer = (state = [], action) => {
                 .sort((a,b) => b.likes - a.likes)
             return changedState
         case 'REMOVE':
-            return action.blogs
+            return action.blogs.sort((a, b) => b.likes - a.likes)
         default:
             return state
     }
