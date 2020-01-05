@@ -5,6 +5,9 @@ import { connect } from "react-redux"
 import { toggleVisibility, removeBlog } from "../reducers/blogReducer"
 
 const Blog = (props) => {
+  if (props.blog === undefined ) {
+    return null
+}
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -13,26 +16,21 @@ const Blog = (props) => {
     marginBottom: 5
   };
 
-  const showWhenVisible = { display: props.blog.visible ? '' : 'none' };
-  const removeButtonVisibility = { display: props.blog.isAuthor ? '' : 'none' };
-
-  return (
+  const removeButtonVisibility = { display: props.blog.author == props.user.username ? '' : 'none' };
+  return(
     <div style={blogStyle}>
-      <div onClick={() => props.toggleVisibility(props.blog, props.user)} className="title">{props.blog.title}</div>
-      <div style={showWhenVisible} className="togglableContent">
-        <a href={props.blog.url}>{props.blog.url}</a>
-        <div>
-          {props.blog.likes} likes 
-          <LikeButton blogId={props.id}  />
-        </div>
-        <div>added by {props.blog.author}</div>
-        <div style={removeButtonVisibility}>
-          <RemoveButton id={props.id} />
-        </div>
+      <h2>{props.blog.title}</h2>
+      <a href="url">{props.blog.url}</a>
+      <div>
+        {props.blog.likes}
+        <LikeButton id={props.blog.id}/>
+      </div>
+      <p>{`added by ${props.blog.author}`}</p>
+      <div style={removeButtonVisibility}>
+          <RemoveButton id={props.blog.id} />
       </div>
     </div>
-  );
-
+  )
 };
 const mapStateToProps = (state) => {
   return {

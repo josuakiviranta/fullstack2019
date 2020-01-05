@@ -6,8 +6,8 @@ import { hideNotification, setNotification } from '../reducers/notificationReduc
 const LikeButton = (props) => {
     return(
     <button
-    id={props.blogId} 
-    onClick={() => props.like(props.blogId)}>like</button>
+    id={props.id} 
+    onClick={() => props.like(props.id)}>like</button>
     )
 }
 

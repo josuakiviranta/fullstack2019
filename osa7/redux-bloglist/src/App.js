@@ -8,6 +8,7 @@ import LogoutButton from "./components/LogoutButton";
 import Togglable from "./components/Togglable";
 import Users from "./components/Users";
 import User from "./components/User"
+import Blog from "./components/Blog"
 // import { useField } from './hooks'
 import { connect } from "react-redux";
 import Notification from "./components/Notification";
@@ -18,6 +19,7 @@ import { getUsers } from "./reducers/userReducer"
 import { BrowserRouter as Router,
 Route, Link, Redirect, withRouter
 } from 'react-router-dom'
+import blogs from "./services/blogs";
 
 
 
@@ -60,15 +62,22 @@ function App(props) {
             </Togglable>
             <div>
               <Link style={padding} to="/users">users</Link>
-              <Link style={padding} to="/">blogs</Link>
+              <Link style={padding} to="/blogs">blogs</Link>
             </div>
             <Route exact path="/" render={() =>
+            <BlogRows/>
+            } />
+            <Route exact path="/blogs" render={() =>
             <BlogRows/>
             } />
             <Route exact path="/users" render={() =>
             <Users/>}/>
             <Route exact path="/users/:id" render={({ match }) => 
             <User user={props.users.find(u => u.id === match.params.id)
+            }/>
+            } />
+            <Route exact path="/blogs/:id" render={({ match }) => 
+            <Blog blog={props.blogs.find(u => u.id === match.params.id)
             }/>
             } />
             </Router>
@@ -81,7 +90,8 @@ function App(props) {
 const mapStateToProps = state => {
   return {
     login: state.login,
-    users: state.users
+    users: state.users,
+    blogs: state.blogs
   };
 };
 

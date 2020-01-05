@@ -5,33 +5,8 @@ import { Table } from 'react-bootstrap'
 import { BrowserRouter as Router,
 Route, Link, Redirect, withRouter
 } from 'react-router-dom'
-import User from './User'
 
-const Users =  (props) => {
-
-/*
-    const users = props.users.map(user => 
-        <div key={user.id}>{user.username} {user.blogs.length}</div>
-    )
-
-    
-    const blogsCreated = props.users.map(user =>
-        <div key={user.id}>{user.blogs.length}</div>
-        ) 
-*/
-
-    const userById = (id) => {
-        console.log("ID: ", id)
-        props.users.forEach(u => console.log("USER ID: ", u.id))
-        console.log("USER?: ", props.users.find(u => u.id === id))
-        return (
-        props.users.find(u => u.id === id)
-        )
-    }
-
-                
-    
-        
+const Users =  (props) => {        
     return(
         <div>
             <Table striped>
