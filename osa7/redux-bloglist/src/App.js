@@ -7,6 +7,7 @@ import BlogForm from "./components/BlogForm";
 import LogoutButton from "./components/LogoutButton";
 import Togglable from "./components/Togglable";
 import Users from "./components/Users";
+import User from "./components/User"
 // import { useField } from './hooks'
 import { connect } from "react-redux";
 import Notification from "./components/Notification";
@@ -17,6 +18,7 @@ import { getUsers } from "./reducers/userReducer"
 import { BrowserRouter as Router,
 Route, Link, Redirect, withRouter
 } from 'react-router-dom'
+
 
 
 function App(props) {
@@ -31,9 +33,15 @@ function App(props) {
   useEffect(() => {
     props.getUsers()
     props.initializeBlogs();
-  });
+  }, []);
 
-  
+
+  const userById = (id) => {
+    return (
+      props.users.find(u => u.id === id)
+    )
+  }
+ 
   return (
     <div className="App">
       <Notification />
@@ -52,13 +60,18 @@ function App(props) {
             </Togglable>
             <div>
               <Link style={padding} to="/users">users</Link>
+              <Link style={padding} to="/">blogs</Link>
             </div>
             <Route exact path="/" render={() =>
             <BlogRows/>
             } />
             <Route exact path="/users" render={() =>
             <Users/>}/>
-          </Router>
+            <Route exact path="/users/:id" render={({ match }) => 
+            <User user={props.users.find(u => u.id === match.params.id)
+            }/>
+            } />
+            </Router>
         </div>
       )}
     </div>
@@ -67,7 +80,8 @@ function App(props) {
 
 const mapStateToProps = state => {
   return {
-    login: state.login
+    login: state.login,
+    users: state.users
   };
 };
 

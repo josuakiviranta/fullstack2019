@@ -14,7 +14,6 @@ export default userReducer
 export const getUsers = () => {
     return async dispatch => {
         const users = await userService.getAll()
-        users.forEach(u => console.log("USER: ", u.blogs.length))
         dispatch({
             type: 'GET_USERS',
             users: users, 
