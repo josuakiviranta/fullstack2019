@@ -9,6 +9,7 @@ import Togglable from "./components/Togglable";
 import Users from "./components/Users";
 import User from "./components/User"
 import Blog from "./components/Blog"
+import Navigationbar from "./components/Navbar"
 // import { useField } from './hooks'
 import { connect } from "react-redux";
 import Notification from "./components/Notification";
@@ -19,9 +20,6 @@ import { getUsers } from "./reducers/userReducer"
 import { BrowserRouter as Router,
 Route, Link, Redirect, withRouter
 } from 'react-router-dom'
-import blogs from "./services/blogs";
-
-
 
 function App(props) {
   const padding = {
@@ -37,21 +35,21 @@ function App(props) {
     props.initializeBlogs();
   }, []);
 
-
-  const userById = (id) => {
-    return (
-      props.users.find(u => u.id === id)
-    )
-  }
- 
   return (
     <div className="App">
+      <Router>
       <Notification />
       {props.login === null ? (
-        <LoginForm />
+        <div className="Login"> 
+          <Redirect to="/login"/>
+          <Route exact path="/login" render={() =>
+          <LoginForm />
+        } />
+        </div>
       ) : (
         <div className="BlogsView">
-          <Router>
+             <Redirect to="/"/>
+            <Navigationbar />
             <h1>blogs</h1>
             <div>
               {props.login.username} logged in
@@ -79,10 +77,10 @@ function App(props) {
             <Route exact path="/blogs/:id" render={({ match }) => 
             <Blog blog={props.blogs.find(u => u.id === match.params.id)
             }/>
-            } />
-            </Router>
+            } />   
         </div>
       )}
+      </Router>
     </div>
   );
 }
