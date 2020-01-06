@@ -1,10 +1,13 @@
 const mongoose = require('mongoose')
 
+// Muutettu visible ja isAuthour
 const blogSchema = mongoose.Schema({
     title: { type: String, required: true },
     author: String,
     url: {type: String, required: true },
     likes: Number,
+    //isAuthor: Boolean,
+    //visible: Boolean,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

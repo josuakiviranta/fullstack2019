@@ -18,12 +18,15 @@ blogsRouter.post('/', async (request, response, next) => {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
     
+    // Muutettu isAuthor ja visible
     const user = await User.findById(decodedToken.id)
     const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
       likes: body.likes === undefined ? 0 : body.likes,
+      //isAuthor: body.isAuthor,
+      //visible: body.visible,
       user: user.id
     })
 
