@@ -26,7 +26,6 @@ const Menu = (props) => {
             <Link style={padding} to="/create">create new</Link>
             <Link style={padding} to="/about">about</Link>
         </div>
-        {/*<Notification/>*/}
         <p>{props.notification}</p>
         <div>
           <Route exact path="/" render={() => 
